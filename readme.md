@@ -20,10 +20,12 @@ Arithmetic Trainer is a web application designed to help users improve their ari
 
 ## Technologies Used
 
-- Laravel
-- React
-- MySQL (or any other preferred database)
-- Bootstrap (or any other preferred CSS framework)
+- [Laravel](https://laravel.com/docs/11.x)
+- [React (inertia)](https://inertiajs.com/)
+- [Postgresql](https://www.postgresql.org/docs/)
+- [Tailwind CSS](https://tailwindcss.com/docs/installation)
+- [Statamic](https://statamic.dev/installing)
+- [Storybook](https://storybook.js.org/docs/get-started)
 
 ## Getting Started
 
