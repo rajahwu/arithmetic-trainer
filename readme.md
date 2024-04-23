@@ -24,8 +24,8 @@ Arithmetic Trainer is a web application designed to help users improve their ari
 - [React (inertia)](https://inertiajs.com/)
 - [Postgresql](https://www.postgresql.org/docs/)
 - [Tailwind CSS](https://tailwindcss.com/docs/installation)
-- [Statamic](https://statamic.dev/installing)
 - [Storybook](https://storybook.js.org/docs/get-started)
+- [Statamic](https://statamic.dev/installing)
 
 ## Getting Started
 
