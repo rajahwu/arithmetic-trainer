@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# Change directory to the root of the project
+cd /var/www/html/apps/Sites/arithmitic
+
 # Source and destination directories
-source_dir="resources/js/Components"
-dest_dir="stories/Components"
+source_dir="app/resources/js/Components"
+dest_dir="app/stories/Components"
 
 # Loop through each .tsx file in the source directory
 for file in "$source_dir"/*.tsx; do
