@@ -1,0 +1,4 @@
+name: webuser
+super: true
+id: f9e9e78a-cf71-485a-8a6b-0106a9c5ed4a
+password_hash: $2y$10$NmlA3uFahkeWx4roWYpUl.I4/Xx.s3PaX8VTJicf.dRDYHFhbje.y
