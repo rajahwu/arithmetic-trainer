@@ -4,8 +4,10 @@ import { Head } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from "@/Components/TextInput";
+import { PageProps } from '@/types';
 
-export default function Practice({ problems }) {
+
+export default function Practice({ problems, auth }: PageProps) {
     // State to track the index of the current problem
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -53,6 +55,11 @@ export default function Practice({ problems }) {
 
 
     return (
+        <AuthenticatedLayout 
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Exercise</h2>}
+        >
+
         <div className="flex m-10">
             <Head title="Practice" />
             <div className="">
@@ -78,5 +85,6 @@ export default function Practice({ problems }) {
                 </div>
             </div>
         </div>
+    </AuthenticatedLayout>
     );
 }
