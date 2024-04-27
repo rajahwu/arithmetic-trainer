@@ -45,14 +45,32 @@ To get started with development, follow these steps:
    - Frontend: `npm start`
 9. Access the application in your browser: `http://localhost:8000`
 
-## Contributing
+# Arithmetic Trainer User Experience Flowchart
 
-Contributions are welcome! If you'd like to contribute to this project, please follow these guidelines:
+## User Experience Flow
 
-1. Fork the repository and create a new branch: `git checkout -b feature-name`
-2. Make your changes and commit them: `git commit -am 'Add new feature'`
-3. Push to the branch: `git push origin feature-name`
-4. Submit a pull request with a detailed description of your changes.
+```mermaid
+graph TD
+    A[Start] --> B[Login / Signup]
+    B --> C{Logged in?}
+    C -->|Yes| D[Dashboard]
+    C -->|No| B
+    D --> E[Select Exercise Type]
+    E --> F{Practice?}
+    F -->|Yes| G[Practice Session]
+    F -->|No| H[Select Difficulty Level]
+    G --> I[Display Question]
+    I --> J{Answered all questions?}
+    J -->|No| G
+    J -->|Yes| K[Practice Summary]
+    K --> D
+    H --> I
+    D --> L[View Progress]
+    L --> M[View Leaderboard]
+    M --> D
+    D --> N[Logout]
+    N --> O[End]
+```
 
 ## License
 
