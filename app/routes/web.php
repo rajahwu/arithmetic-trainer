@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProblemController;
+use App\Http\Controllers\ProblemSetController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +25,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('problems', ProblemController::class);
+Route::controller(ProblemSetController::class)->group(function() {
+    Route::get('/exercise', 'index')->middleware(['auth', 'verified'])->name('problem_set.index');
+    Route::post('/exercise/{exerciseSessionType}', 'select')->middleware(['auth', 'verified'])->name('problem_set.select');
+    Route::get('/exercise/show', 'show')->middleware(['auth', 'verified'])->name('problem_set.show');
+});
+
+Route::get('/progress', function () {
+    return Inertia::render('Progress');
+})->middleware(['auth', 'verified'])->name('progress');
+
+// Route::resource('exercise', ProblemController::class);
+
+
 
 require __DIR__.'/auth.php';

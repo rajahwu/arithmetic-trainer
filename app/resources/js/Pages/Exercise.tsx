@@ -7,8 +7,10 @@ import TextInput from "@/Components/TextInput";
 import { PageProps } from '@/types';
 
 
-export default function Practice({ problems, auth }: PageProps) {
+export default function Exercise({ type, problems, auth }: PageProps) {
     // State to track the index of the current problem
+
+    console.log({ type, problems })
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Function to move to the next problem
@@ -63,7 +65,7 @@ export default function Practice({ problems, auth }: PageProps) {
         <div className="flex m-10">
             <Head title="Practice" />
             <div className="">
-                <h1>Practice</h1>
+                <h1 className="uppercase text-blue-700">{type}</h1>
                 <div className="flex-row">
                     <div className="">
                         {category.map((element, index) => (
@@ -84,6 +86,9 @@ export default function Practice({ problems, auth }: PageProps) {
                     <p className="text-center">{hasAttempted && result ? 'Correct' : ''}</p>
                 </div>
             </div>
+        </div>
+        <div className="mx-16">
+            <PrimaryButton>Submit</PrimaryButton>
         </div>
     </AuthenticatedLayout>
     );
