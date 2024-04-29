@@ -27,8 +27,9 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(ProblemSetController::class)->group(function() {
     Route::get('/exercise', 'index')->middleware(['auth', 'verified'])->name('problem_set.index');
-    Route::post('/exercise/{exerciseSessionType}', 'select')->middleware(['auth', 'verified'])->name('problem_set.select');
-    Route::get('/exercise/show', 'show')->middleware(['auth', 'verified'])->name('problem_set.show');
+    Route::post('/exercise/select/{type}', 'select')->middleware(['auth', 'verified'])->name('problem_set.select');
+    Route::post('/exercise/create/{type}', 'create')->middleware(['auth', 'verified'])->name('problem_set.create');
+    Route::get('/exercise/attempt', 'show')->middleware(['auth', 'verified'])->name('problem_set.show');
 });
 
 Route::get('/progress', function () {

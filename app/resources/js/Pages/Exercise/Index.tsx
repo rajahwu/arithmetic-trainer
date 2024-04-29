@@ -8,18 +8,19 @@ import TextInput from "@/Components/TextInput";
 import Dropdown from "@/Components/Dropdown";
 
 export default function Index() {
+
     const { data, setData, post, processing, errors } = useForm({
-        'exerciseSessionType': ''
+        'type': ''
       })
       
 
     const handleClick = (e) => {
-        setData('exerciseSessionType', e.target.value)
+        setData('type', e.target.value)
     } 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/exercise/' + data['exerciseSessionType']);
+        post('/exercise/select/' + data['type']);
     }
     return (
     <div>
