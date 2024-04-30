@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProblemSetController;
+use App\Http\Controllers\ExerciseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,11 +26,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::controller(ProblemSetController::class)->group(function() {
-    Route::get('/exercise', 'index')->middleware(['auth', 'verified'])->name('problem_set.index');
-    Route::post('/exercise/select/{type}', 'select')->middleware(['auth', 'verified'])->name('problem_set.select');
-    Route::post('/exercise/create/{type}', 'create')->middleware(['auth', 'verified'])->name('problem_set.create');
-    Route::get('/exercise/attempt', 'show')->middleware(['auth', 'verified'])->name('problem_set.show');
+Route::controller(ExerciseController::class)->group(function() {
+    Route::get('/exercise/select', 'select')->middleware(['auth', 'verified'])->name('exercise.select');
+    Route::post('/exercise/{type}/settings/', 'config')->middleware(['auth', 'verified'])->name('exercise.config');
+    Route::post('/exercise/{type}/create', 'create')->middleware(['auth', 'verified'])->name('exercise.create');
+    Route::get('/exercise/attempt', 'start')->middleware(['auth', 'verified'])->name('exercise.start');
+    Route::get('/exercise/summary', 'summary')->middleware(['auth', 'verified'])->name('exercise.summary');
 });
 
 Route::get('/progress', function () {

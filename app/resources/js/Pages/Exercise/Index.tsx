@@ -20,7 +20,7 @@ export default function Index() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/exercise/select/' + data['type']);
+        post('/exercise/' + data['type'] + '/settings/');
     }
     return (
     <div>

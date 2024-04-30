@@ -7,7 +7,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from "@/Components/TextInput";
 import Dropdown from "@/Components/Dropdown";
 
-export default function Define({ auth }: PageProps) {
+export default function Define({ auth, type }: PageProps) {
+
   const [values, setValues] = useState({
     'problem_count': '',
     'category': '',
@@ -26,13 +27,12 @@ export default function Define({ auth }: PageProps) {
   const { data, setData, post, processing, errors } = useForm({
     'problem_count': '',
     'category': '',
-    'type': '',
+    'type': type,
   });
   
   function submit(e) {
     e.preventDefault();
-    console.log(data);
-    post('/exercise/create/' + data.type, values);
+    post('/exercise/' + type + '/create/', values);
   }
 
   return (

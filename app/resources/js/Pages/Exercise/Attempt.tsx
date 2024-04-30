@@ -7,10 +7,10 @@ import TextInput from "@/Components/TextInput";
 import { PageProps } from '@/types';
 
 
-export default function Exercise({ type, problems, auth }: PageProps) {
+export default function Attempt({ type, problemSet, auth }: PageProps) {
     // State to track the index of the current problem
 
-    console.log({ type, problems })
+    // console.log({ type, problemSet })
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Function to move to the next problem
@@ -36,7 +36,7 @@ export default function Exercise({ type, problems, auth }: PageProps) {
     };
 
     // Get the current problem and category based on the currentIndex
-    const problem = problems[currentIndex];
+    const problem = problemSet[currentIndex];
     const category = problem.category.split(',');
 
     // State for input value and result
@@ -52,7 +52,7 @@ export default function Exercise({ type, problems, auth }: PageProps) {
 
     // Boolean variables to disable buttons at the start and end of the problem list
     const isAtFirstProblem = currentIndex === 0;
-    const isAtLastProblem = currentIndex === problems.length - 1;
+    const isAtLastProblem = currentIndex === problemSet.length - 1;
 
 
 
