@@ -28,9 +28,9 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(ExerciseController::class)->group(function() {
     Route::get('/exercise/select', 'select')->middleware(['auth', 'verified'])->name('exercise.select');
-    Route::post('/exercise/{type}/settings/', 'config')->middleware(['auth', 'verified'])->name('exercise.config');
+    Route::post('/exercise/{type}/settings/', 'settings')->middleware(['auth', 'verified'])->name('exercise.settings');
     Route::post('/exercise/{type}/create', 'create')->middleware(['auth', 'verified'])->name('exercise.create');
-    Route::get('/exercise/attempt', 'start')->middleware(['auth', 'verified'])->name('exercise.start');
+    Route::get('/exercise/start', 'start')->middleware(['auth', 'verified'])->name('exercise.start');
     Route::get('/exercise/summary', 'summary')->middleware(['auth', 'verified'])->name('exercise.summary');
 });
 

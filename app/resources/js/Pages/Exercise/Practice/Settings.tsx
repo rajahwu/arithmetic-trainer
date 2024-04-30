@@ -7,7 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from "@/Components/TextInput";
 import Dropdown from "@/Components/Dropdown";
 
-export default function Define({ auth, type }: PageProps) {
+export default function Settings({ auth, type }: PageProps) {
 
   const [values, setValues] = useState({
     'problem_count': '',

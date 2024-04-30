@@ -7,7 +7,7 @@ import TextInput from "@/Components/TextInput";
 import { PageProps } from '@/types';
 
 
-export default function Attempt({ type, problemSet, auth }: PageProps) {
+export default function Start({ type, problemSet, auth }: PageProps) {
     // State to track the index of the current problem
 
     // console.log({ type, problemSet })
