@@ -7,12 +7,12 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from "@/Components/TextInput";
 import Dropdown from "@/Components/Dropdown";
 
-export default function Settings({ auth, type }: PageProps) {
+export default function Settings({ auth, selected }: PageProps) {
 
   const [values, setValues] = useState({
     'problem_count': '',
     'category': '',
-    'type': '',
+    'selected': '',
   });
 
   function handleChange(e) {
@@ -27,12 +27,12 @@ export default function Settings({ auth, type }: PageProps) {
   const { data, setData, post, processing, errors } = useForm({
     'problem_count': '',
     'category': '',
-    'type': type,
+    'selected': selected,
   });
   
   function submit(e) {
     e.preventDefault();
-    post('/exercise/' + type + '/create/', values);
+    post('/exercise/create/' + selected, values);
   }
 
   return (

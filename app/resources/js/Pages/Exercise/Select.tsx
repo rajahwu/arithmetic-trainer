@@ -10,17 +10,17 @@ import Dropdown from "@/Components/Dropdown";
 export default function Select({ auth }) {
 
     const { data, setData, post, processing, errors } = useForm({
-        'type': ''
+        'selected': ''
       })
       
 
     const handleClick = (e) => {
-        setData('type', e.target.value)
+        setData('selected', e.target.value)
     } 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/exercise/' + data['type'] + '/settings/');
+        post('/exercise/settings/' + data['selected']);
     }
     return (
         <AuthenticatedLayout 

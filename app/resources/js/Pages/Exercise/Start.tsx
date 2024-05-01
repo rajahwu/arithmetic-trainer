@@ -7,10 +7,8 @@ import TextInput from "@/Components/TextInput";
 import { PageProps } from '@/types';
 
 
-export default function Start({ type, problemSet, auth }: PageProps) {
+export default function Start({ id, selected, problemSet, auth }: PageProps) {
     // State to track the index of the current problem
-
-    // console.log({ type, problemSet })
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Function to move to the next problem
@@ -65,7 +63,7 @@ export default function Start({ type, problemSet, auth }: PageProps) {
         <div className="flex m-10">
             <Head title="Practice" />
             <div className="">
-                <h1 className="uppercase text-blue-700">{type}</h1>
+                <h1 className="uppercase text-blue-700">{selected}/{id}</h1>
                 <div className="flex-row">
                     <div className="">
                         {category.map((element, index) => (

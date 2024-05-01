@@ -30,15 +30,15 @@ class ExerciseController extends Controller
     }
 
     public function settings(Request $request) {
-        $type = $request->input('type', '');
-        switch ($type) {
+        $selected = $request->input('selected', '');
+        switch ($selected) {
             case 'practice':
                 return Inertia::render('Exercise/Practice/Settings', [
-                    'type' => $type
+                    'selected' => $selected
                 ]);
             case 'assestment':
                 return Inertia::render('Exercise/Assestment/Settings', [
-                    'type' => $type
+                    'selected' => $selected
                 ]);
         }
 
@@ -47,20 +47,26 @@ class ExerciseController extends Controller
     }
 
     public function create(Request $request) {
-        $type = $request->input('type');
-        $query_params = $request->input('queryParams');
-        $data =  [
-            'type' => $type,
-            'queryParams' => $query_params
+        $selected = $request->input('selected');
+
+        $query =  [
+            'type' => $selected,
+            'id' => '1'
         ];
+
         $problem_set = Problem::all();
-        return redirect()->route('exercise.start');
+
+        return redirect()->route('exercise.start', $query);
     }
     
     public function start(Request $request) {
+        $id = $request->query('id');
+        $selected = $request->query('type');
         $problem_set = Problem::all();
         return Inertia::render('Exercise/Start', [
             'problemSet' => $problem_set,
+            'selected' => $selected,
+            'id' => $id
         ]);
 
     }
