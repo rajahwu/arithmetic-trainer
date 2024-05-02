@@ -1,0 +1,73 @@
+Project Arithmetic_Trainer {
+    database_type: 'PostgreSQL'
+    Note: '''
+    # Arithmetic Trainer Database
+    '''
+}
+
+Table problems {
+  id uuid [primary key]
+  text string
+  solution string
+  category string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table exercise_sessions {
+  id uuid [primary key]
+  type string [note: '\'practice\', \'assessment\'']
+  title string
+  description text
+  system_defined_set_id uuid [ref: > problems.id]
+  instructor_defined_set_id uuid [ref: > problems.id]
+  peer_defined_set_id uuid [ref: > problems.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table practice_session_problem_sets {
+  id uuid [primary key]
+  session_id uuid [ref: > exercise_sessions.id]
+  problem_id uuid [ref: > problems.id]
+  created_by uuid [ref: > users.id, note: 'nullable']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table practice_sessions_attempts {
+  id uuid [primary key]
+  user_id uuid [ref: > users.id]
+  session_id uuid [ref: > exercise_sessions.id]
+  score tinyint
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table assessment_session_problem_sets {
+  id uuid [primary key]
+  type string  [note: '\'standard\', \'instructor_defined\', \'peer_defined\'']
+  session_id uuid [ref: > exercise_sessions.id]
+  set_id uuid [ref: > practice_session_problem_sets.id]
+  created_by uuid [ref: > users.id, note: 'nullable']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table assessment_session_attempts {
+  id uuid [primary key]
+  user_id uuid [ref: > users.id]
+  session_id uuid [ref: > assessment_session_problem_sets.id]
+  score tinyint
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table users {
+  id uuid [primary key]
+  username string
+  email string
+  password string
+  created_at timestamp
+  updated_at timestamp
+}

@@ -16,9 +16,6 @@ return new class extends Migration
             $table->enum('type', ['practice', 'assessment']);
             $table->string('title');
             $table->text('description');
-            $table->uuid('system_defined_set_id')->nullable();
-            $table->uuid('instructor_defined_set_id')->nullable();
-            $table->uuid('peer_defined_set_id')->nullable();
             $table->timestamps();
         });
     }
