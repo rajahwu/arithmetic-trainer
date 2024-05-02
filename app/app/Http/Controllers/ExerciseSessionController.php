@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use App\Models\ProblemSet;
+use App\Models\Problem;
 
 class ExerciseSessionController extends Controller
 {
@@ -54,7 +54,7 @@ class ExerciseSessionController extends Controller
             'id' => '1'
         ];
 
-        $problem_set = ProblemSet::all();
+        $problem_set = Problem::all();
 
         return redirect()->route('exercise.start', $query);
     }

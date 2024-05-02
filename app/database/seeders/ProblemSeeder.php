@@ -5,10 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use App\Models\ProblemSet;
+use App\Models\Problem;
 use DateTime;
 
-class ProblemSetSeeder extends Seeder
+class ProblemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,11 +21,11 @@ class ProblemSetSeeder extends Seeder
                 $solution = $i + $j;
                 $text = "$i + $j";
 
-                ProblemSet::create([
+                Problem::create([
                     'id' => Str::uuid(),
                     'text' => $text,
                     'solution' => $solution,
-                    'category' => 'core,arithmetic,addition',
+                    'category_id' => Str::uuid()(),
                     'created_at' => new DateTime(),
                 ]);
             }
@@ -37,11 +37,10 @@ class ProblemSetSeeder extends Seeder
                 $solution = $i * $j;
                 $text = "$i * $j";
 
-                ProblemSet::create([
+                Problem::create([
                     'id' => Str::uuid(),
                     'text' => $text,
                     'solution' => $solution,
-                    'category' => 'core,arithmetic,multiplication',
                     'created_at' => new DateTime(),
                 ]);
             }
@@ -54,11 +53,10 @@ class ProblemSetSeeder extends Seeder
                     $solution = $i - $j;
                     $text = "$i - $j";
                     
-                    ProblemSet::create([
+                    Problem::create([
                         'id' => Str::uuid(),
                         'text' => $text,
                         'solution' => $solution,
-                        'category' => 'core,arithmetic,subtraction',
                         'created_at' => new DateTime(),
                     ]);
                 }
@@ -76,7 +74,6 @@ class ProblemSetSeeder extends Seeder
                         'id' => Str::uuid(),
                         'text' => $text,
                         'solution' => $solution,
-                        'category' => 'core,arithmetic,division',
                         'created_at' => new DateTime(),
                     ]);
                 }

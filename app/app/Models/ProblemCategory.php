@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssessmentSessionProblemSet extends Model
+class ProblemCategory extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'assessment_session_problem_sets';
+    protected $table = 'problem_categories';
 
 }

@@ -5,59 +5,80 @@ Project Arithmetic_Trainer {
     '''
 }
 
+Table categories {
+  id int [primary key]
+  title string
+  description string [note: 'nullable']
+  created_at timestamp
+  updated_at timestamp
+}
+
 Table problems {
   id uuid [primary key]
   text string
   solution string
-  category string
+  explanation text [note: 'nullable']
+  references text [note: 'nullable']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table problem_categories {
+  id int [primary key]
+  category_id int [ref: > categories.id]
+  problem_id uuid [ref: > problems.id]
   created_at timestamp
   updated_at timestamp
 }
 
 Table exercise_sessions {
   id uuid [primary key]
+  user_id uuid [ref: > users.id]
   type string [note: '\'practice\', \'assessment\'']
   title string
-  description text
-  system_defined_set_id uuid [ref: > problems.id]
-  instructor_defined_set_id uuid [ref: > problems.id]
-  peer_defined_set_id uuid [ref: > problems.id]
+  description text [note: 'nullable']
+  start_time timestamp
+  end_time timestamp
+  is_completed boolean
   created_at timestamp
   updated_at timestamp
 }
 
 Table practice_session_problem_sets {
   id uuid [primary key]
-  session_id uuid [ref: > exercise_sessions.id]
+  sessions_id uuid [ref: > exercise_sessions.id]
   problem_id uuid [ref: > problems.id]
-  created_by uuid [ref: > users.id, note: 'nullable']
   created_at timestamp
   updated_at timestamp
 }
 
 Table practice_sessions_attempts {
   id uuid [primary key]
-  user_id uuid [ref: > users.id]
-  session_id uuid [ref: > exercise_sessions.id]
+  sessions_id uuid [ref: > exercise_sessions.id]
   score tinyint
   created_at timestamp
   updated_at timestamp
 }
 
-Table assessment_session_problem_sets {
+Table assessments {
   id uuid [primary key]
-  type string  [note: '\'standard\', \'instructor_defined\', \'peer_defined\'']
-  session_id uuid [ref: > exercise_sessions.id]
-  set_id uuid [ref: > practice_session_problem_sets.id]
+  type string [note: '\'standard\', \'instructor_defined\', \'peer_defined\'']
+  title string
+  description text
   created_by uuid [ref: > users.id, note: 'nullable']
+}
+
+Table assessment_problem_sets {
+  id uuid [primary key]
+  assessment_id uuid [ref: > assessments.id]
+  problem_id uuid [ref: > problems.id]
   created_at timestamp
   updated_at timestamp
 }
 
 Table assessment_session_attempts {
   id uuid [primary key]
-  user_id uuid [ref: > users.id]
-  session_id uuid [ref: > assessment_session_problem_sets.id]
+  exercise_sessions_id uuid [ref: > exercise_sessions.id]
   score tinyint
   created_at timestamp
   updated_at timestamp
