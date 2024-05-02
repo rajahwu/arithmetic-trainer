@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use App\Models\Problem;
+use App\Models\ProblemSet;
 
-class ExerciseController extends Controller
+class ExerciseSessionController extends Controller
 {
     private function save() {
         return Redirect::route('dashboard');
@@ -54,7 +54,7 @@ class ExerciseController extends Controller
             'id' => '1'
         ];
 
-        $problem_set = Problem::all();
+        $problem_set = ProblemSet::all();
 
         return redirect()->route('exercise.start', $query);
     }
@@ -62,7 +62,7 @@ class ExerciseController extends Controller
     public function start(Request $request) {
         $id = $request->query('id');
         $selected = $request->query('type');
-        $problem_set = Problem::all();
+        $problem_set = ProblemSet::all();
         return Inertia::render('Exercise/Start', [
             'problemSet' => $problem_set,
             'selected' => $selected,
@@ -73,7 +73,7 @@ class ExerciseController extends Controller
 
     public function summary(Request $request) {
         $summary = $request->input('summary');
-        return Inertia::render('Exercise/summary');
+        return Inertia::render('Exercise/Summary');
 
     }
 

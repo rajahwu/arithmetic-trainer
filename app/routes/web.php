@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProblemSetController;
-use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\ExerciseSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::controller(ExerciseController::class)->group(function() {
+Route::controller(ExerciseSessionController::class)->group(function() {
     Route::get('/exercise/select', 'select')->middleware(['auth', 'verified'])->name('exercise.select');
     Route::post('/exercise/settings/{selected}', 'settings')->middleware(['auth', 'verified'])->name('exercise.settings');
     Route::post('/exercise/create/{selected}', 'create')->middleware(['auth', 'verified'])->name('exercise.create');

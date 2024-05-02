@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('problems', function (Blueprint $table) {
+        Schema::create('user_session_attempts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->String('text');
-            $table->String('solution');
-            $table->String('category');
+            $table->foreignId('user_id')->constrained();
+            $table->uuid('session_id');
+            $table->tinyInteger('score');
             $table->timestamps();
+            
+            $table->foreign('session_id')->references('id')->on('exercise_sessions')->onDelete('cascade');
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('problems');
+        Schema::dropIfExists('user_session_attempts');
     }
 };
