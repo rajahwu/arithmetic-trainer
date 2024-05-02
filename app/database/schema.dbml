@@ -24,8 +24,8 @@ Table problems {
 }
 
 Table problem_categories {
-  id int [primary key]
-  category_id int [ref: > categories.id]
+  id uuid [primary key]
+  category_id uuid [ref: > categories.id]
   problem_id uuid [ref: > problems.id]
   created_at timestamp
   updated_at timestamp

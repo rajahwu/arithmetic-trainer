@@ -25,7 +25,6 @@ class ProblemSeeder extends Seeder
                     'id' => Str::uuid(),
                     'text' => $text,
                     'solution' => $solution,
-                    'category_id' => Str::uuid()(),
                     'created_at' => new DateTime(),
                 ]);
             }
@@ -70,7 +69,7 @@ class ProblemSeeder extends Seeder
                     $solution = $i / $j;
                     $text = "$i / $j";
                     
-                    ProblemSet::create([
+                    Problem::create([
                         'id' => Str::uuid(),
                         'text' => $text,
                         'solution' => $solution,
