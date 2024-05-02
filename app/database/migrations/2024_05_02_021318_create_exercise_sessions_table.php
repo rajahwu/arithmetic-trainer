@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('exercise_sessions', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(Str::uuid());
-            $table->uuid('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->enum('type', ['practice', 'assessment']);
             $table->string('title');
             $table->text('description')->nullable();

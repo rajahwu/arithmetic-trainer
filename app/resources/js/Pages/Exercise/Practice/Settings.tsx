@@ -11,23 +11,30 @@ export default function Settings({ auth, selected }: PageProps) {
 
   const [values, setValues] = useState({
     'problem_count': '',
-    'category': '',
-    'selected': '',
+    'categories': [],
   });
 
   function handleChange(e) {
-    const key = e.target.id;
-    const value = e.target.value;
-    setValues(prevValues => ({
-      ...prevValues,
-      [key]: value,
-    }));
+    const { name, value, checked } = e.target;
+    if (name === 'category') {
+      const updatedCategories = checked
+        ? [...values.categories, value]
+        : values.categories.filter(cat => cat !== value);
+      setValues(prevValues => ({
+        ...prevValues,
+        categories: updatedCategories,
+      }));
+    } else {
+      setValues(prevValues => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
   }
 
   const { data, setData, post, processing, errors } = useForm({
     'problem_count': '',
-    'category': '',
-    'selected': selected,
+    'categories': [],
   });
   
   function submit(e) {
@@ -43,29 +50,40 @@ export default function Settings({ auth, selected }: PageProps) {
       <form onSubmit={submit}>
         <TextInput
           type="number"
-          name="probem_count"
-          value={data.probem_count}
+          name="problem_count"
+          value={data.problem_count}
           onChange={e => setData('problem_count', e.target.value)}
         />
-        <input
-          type="checkbox"
-          values={values.category}
-          checked={data.category === values.category}
-          onChange={e => setData('category', e.target.checked)}
-        />
-        Core Arithmetic
-        <input
-          type="checkbox"
-          checked={data.category === values.category}
-          onChange={e => setData('category', e.target.checked)}
-        />
-        Intermediate Arithmetic
-        <input
-          type="checkbox"
-          checked={data.category === values.category}
-          onChange={e => setData('category', e.target.checked)}
-        />
-        Advanced Arithmetic
+        <label>
+          <input
+            type="checkbox"
+            name="category"
+            value="core"
+            checked={values.categories.includes('core')}
+            onChange={handleChange}
+          />
+          Core Arithmetic
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="category"
+            value="intermediate"
+            checked={values.categories.includes('intermediate')}
+            onChange={handleChange}
+          />
+          Intermediate Arithmetic
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="category"
+            value="advanced"
+            checked={values.categories.includes('advanced')}
+            onChange={handleChange}
+          />
+          Advanced Arithmetic
+        </label>
         <PrimaryButton type="submit" disabled={processing}>
           Continue
         </PrimaryButton>
