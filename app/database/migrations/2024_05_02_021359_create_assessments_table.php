@@ -17,10 +17,8 @@ return new class extends Migration
             $table->enum('type', ['standard', 'instructor_defined', 'peer_defined']);
             $table->string('title');
             $table->text('description');
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreignId('created_by')->constrained(table: 'users')->nullable();
             $table->timestamps();
-            
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 

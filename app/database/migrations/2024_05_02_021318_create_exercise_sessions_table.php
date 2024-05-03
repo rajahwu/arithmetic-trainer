@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('exercise_sessions', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(Str::uuid());
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->enum('type', ['practice', 'assessment']);
             $table->string('title');
             $table->text('description')->nullable();
@@ -23,7 +23,6 @@ return new class extends Migration
             $table->boolean('is_completed')->default(0);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
