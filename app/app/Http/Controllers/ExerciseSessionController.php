@@ -58,30 +58,75 @@ class ExerciseSessionController extends Controller
     }
 
     public function create(Request $request) {
-        dd($request);
         $selected = $request->input('selected');
+        $categories = $request->input('categories');
 
         $query =  [
             'type' => $selected,
-            'id' => '1'
+            'categories' => implode(",", $categories),
+            'id' => "1"
         ];
-
-        $problem_set = Problem::all();
-
+        
         return redirect()->route('exercise.start', $query);
     }
     
     public function start(Request $request) {
         $id = $request->query('id');
         $selected = $request->query('type');
-        $problem_set = Problem::all();
+        $categories = explode(",", $request->query('categories'));
+        $categories = array_values($categories);
+    
+        // Check if "core" or "arithmetic" is selected
+        $coreSelected = in_array('core', $categories);
+        $arithmeticSelected = in_array('arithmetic', $categories);
+    
+        // Check if specific operations are selected
+        $additionSelected = in_array('addition', $categories);
+        $subtractionSelected = in_array('subtraction', $categories);
+        $multiplicationSelected = in_array('multiplication', $categories);
+        $divisionSelected = in_array('division', $categories);
+    
+        // Fetch problems based on the selected categories
+        $problemQuery = Problem::select('problems.*')
+            ->join('problem_categories', 'problems.id', '=', 'problem_categories.problem_id')
+            ->join('categories', 'problem_categories.category_id', '=', 'categories.id');
+    
+        if ($coreSelected) {
+            // Add "core" category to the query
+            $problemQuery->orWhere('categories.title', 'core');
+        }
+    
+        if ($arithmeticSelected) {
+            // Add "arithmetic" category to the query
+            $problemQuery->orWhere('categories.title', 'arithmetic');
+        }
+    
+        if ($additionSelected || $subtractionSelected || $multiplicationSelected || $divisionSelected) {
+            // Add specific operations to the query
+            if ($additionSelected) {
+                $problemQuery->orWhere('categories.title', 'addition');
+            }
+            if ($subtractionSelected) {
+                $problemQuery->orWhere('categories.title', 'subtraction');
+            }
+            if ($multiplicationSelected) {
+                $problemQuery->orWhere('categories.title', 'multiplication');
+            }
+            if ($divisionSelected) {
+                $problemQuery->orWhere('categories.title', 'division');
+            }
+        }
+    
+        // Get the problems matching the query
+        $problem_set = $problemQuery->get();
+    
         return Inertia::render('Exercise/Start', [
             'problemSet' => $problem_set,
             'selected' => $selected,
             'id' => $id
         ]);
-
     }
+    
 
     public function summary(Request $request) {
         $summary = $request->input('summary');

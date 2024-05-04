@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Str;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('problem_categories', function (Blueprint $table) {
+        Schema::create('problem_levels', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(Str::uuid());
-            $table->uuid('category_id');
-            $table->uuid('problem_id');
+            $table->string('title');
+            $table->text('description')->nullable();
             $table->timestamps();
-
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('problem_id')->references('id')->on('problems')->onDelete('cascade');
-
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('problem_categories');
+        Schema::dropIfExists('problem_levels');
     }
 };

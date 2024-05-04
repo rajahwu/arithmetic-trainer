@@ -12,10 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('problems', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(Str::uuid());
-            $table->string('title');
-            $table->string('description')->nullable();
+            $table->foreginId('problem_level_id')->constrianted();
+            $table->foreginId('problem_branch_id')->constrianted();
+            $table->foreginId('problem_type_id')->constrianted();
+            $table->text('text');
+            $table->text('solution');
+            $table->text('explanation')->nullable();
+            $table->text('references')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('problems');
     }
 };

@@ -5,40 +5,60 @@ Project Arithmetic_Trainer {
     '''
 }
 
-Table categories {
-  id int [primary key]
+Table problem_levels as levels {
+  id uuid [primary key]
   title string
-  description string [note: 'nullable']
+  description text [note: 'nullable']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table problem_branches as branches {
+  id uuid [primary key]
+  title string
+  description text [note: 'nullable']
+  created_at timestamp
+  updated_at timestamp
+
+}
+
+Table problem_types as types {
+  id uuid [primary key]
+  title string
+  description text [note: 'nullable']
   created_at timestamp
   updated_at timestamp
 }
 
 Table problems {
   id uuid [primary key]
-  text string
-  solution string
+  problem_level_id uuid [ref: > levels.id]
+  problem_branch_id uuid [ref: > branches.id]
+  problem_type_id uuid [ref: > types.id]
+  text text
+  solution text
   explanation text [note: 'nullable']
   references text [note: 'nullable']
   created_at timestamp
   updated_at timestamp
 }
 
-Table problem_categories {
-  id uuid [primary key]
-  category_id uuid [ref: > categories.id]
-  problem_id uuid [ref: > problems.id]
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table exercise_sessions {
+Table exercise_sessions as sessions {
   id uuid [primary key]
   user_id uuid [ref: > users.id]
+  practice_session_problem_set_id uuid [
+    ref: > practice_session_problem_sets.id,
+    note: 'nullable'
+    ]
+  assessment_problem_set_id uuid [
+    ref: > assessment_problem_sets.id,
+    note: 'nullable'
+    ]
   type string [note: '\'practice\', \'assessment\'']
   title string
   description text [note: 'nullable']
-  start_time timestamp
-  end_time timestamp
+  start_time timestamp [default: 'now()']
+  end_time timestamp [note: 'nullable']
   is_completed boolean
   created_at timestamp
   updated_at timestamp
@@ -46,7 +66,7 @@ Table exercise_sessions {
 
 Table practice_session_problem_sets {
   id uuid [primary key]
-  sessions_id uuid [ref: > exercise_sessions.id]
+  session_id uuid [ref: > sessions.id]
   problem_id uuid [ref: > problems.id]
   created_at timestamp
   updated_at timestamp
@@ -54,7 +74,7 @@ Table practice_session_problem_sets {
 
 Table practice_sessions_attempts {
   id uuid [primary key]
-  sessions_id uuid [ref: > exercise_sessions.id]
+  session_id uuid [ref: > sessions.id]
   score tinyint
   created_at timestamp
   updated_at timestamp
@@ -78,7 +98,7 @@ Table assessment_problem_sets {
 
 Table assessment_session_attempts {
   id uuid [primary key]
-  exercise_sessions_id uuid [ref: > exercise_sessions.id]
+  sessions_id uuid [ref: > sessions.id]
   score tinyint
   created_at timestamp
   updated_at timestamp

@@ -16,6 +16,12 @@ return new class extends Migration
             $table->uuid('id')->primary()->default(Str::uuid());
             $table->foreignId('user_id')->constrained();
             $table->enum('type', ['practice', 'assessment']);
+            $table->foreignId('practice_session_problem_set_id')
+                  ->constrained()
+                  ->nullable();
+            $table->foreginId('assessment_id')
+                  ->constrained()
+                  ->nullable();
             $table->string('title');
             $table->text('description')->nullable();
             $table->timestamp('start_time')->default(\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP'));
