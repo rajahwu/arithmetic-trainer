@@ -6,14 +6,13 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from "@/Components/TextInput";
 
 export default function Settings({ auth, settings }: PageProps) {
-  console.log({ settings })
   const { data, setData, post, processing } = useForm({
     'problem_count': '',
     'problem_levels': [],
     'problem_branches': [],
     'problem_types': [],
-    'exercise_type': '',
-    'exercise_category': ''
+    'exercise_type': settings.exercise_type,
+    'exercise_category': settings.exercise_category
   });
 
   const { exercise_type, exercise_category, problem_levels, problem_branches, problem_types } = settings;
