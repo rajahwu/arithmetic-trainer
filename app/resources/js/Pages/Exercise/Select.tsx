@@ -8,18 +8,25 @@ import TextInput from "@/Components/TextInput";
 import Dropdown from "@/Components/Dropdown";
 
 export default function Select({ auth }) {
-
     const { data, setData, post, processing, errors } = useForm({
-        'selected': ''
+        selected: {
+            type: '',
+            category: ''
+        }
     });
       
     const handleClick = (value) => {
-        setData('selected', value);
+        const [type, category] = value.split(',');
+        setData('selected', { type, category });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/exercise/settings/' + data.selected);
+        post('/exercise/settings/' + data.selected['type'] + '/' + data.selected['category'], {
+            data: {
+                selected: data.selected
+            }
+        });
     };
 
     return (
@@ -32,23 +39,23 @@ export default function Select({ auth }) {
                     <div>
                         <div>
                             <p className="m-2 uppercase">Practice</p>
-                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('standard')}>
+                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('practice,standard')}>
                                 Standard Practice
                             </PrimaryButton>
                         </div>
                         <div>
                             <p className="m-2 uppercase">Assessments</p>
-                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('quiz')}>
+                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('assessment,quiz')}>
                                 Quiz
                             </PrimaryButton>
-                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('exam')}>
+                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('assessment,evaluation')}>
+                                Evaluation
+                            </PrimaryButton>
+                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('assessment,exam')}>
                                 Exam
                             </PrimaryButton>
-                            <PrimaryButton className="p-5 m-2" type="button" onClick={() => handleClick('assessment')}>
-                                Assessment
-                            </PrimaryButton>
                         </div>
-                        <PrimaryButton className="p-5 m-2" type="submit" onClick={handleSubmit}>
+                        <PrimaryButton className="p-5 m-2" type="submit">
                             Select
                         </PrimaryButton>
                     </div>

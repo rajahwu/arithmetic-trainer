@@ -28,8 +28,8 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(ExerciseSessionController::class)->group(function() {
     Route::get('/exercise/select', 'select')->middleware(['auth', 'verified'])->name('exercise.select');
-    Route::post('/exercise/settings/{selected}', 'settings')->middleware(['auth', 'verified'])->name('exercise.settings');
-    Route::post('/exercise/create/{selected}', 'create')->middleware(['auth', 'verified'])->name('exercise.create');
+    Route::post('/exercise/settings/{type}/{category}', 'settings')->middleware(['auth', 'verified'])->name('exercise.settings');
+    Route::post('/exercise/create/{type}/{category}', 'create')->middleware(['auth', 'verified'])->name('exercise.create');
     Route::get('/exercise/start', 'start')->middleware(['auth', 'verified'])->name('exercise.start');
     Route::get('/exercise/summary/{id}', 'summary')->middleware(['auth', 'verified'])->name('exercise.summary');
     Route::get('/exercise/end/{id}', 'end')->middleware(['auth', 'verified'])->name('exercise.end');

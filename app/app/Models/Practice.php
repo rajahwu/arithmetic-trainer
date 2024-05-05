@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProblemLevel extends Model
+class Practice extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $table = 'practices';
+
 }

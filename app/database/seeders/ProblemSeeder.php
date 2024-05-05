@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Problem;
-use App\Models\Category;
-use App\Models\ProblemCategory;
+use App\Models\ProblemLevel;
+use App\Models\ProblemBranch;
+use App\Models\ProblemType;
 use DateTime;
 
 class ProblemSeeder extends Seeder
@@ -17,141 +19,96 @@ class ProblemSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create or retrieve the "core" category
-        $coreCategory = Category::firstOrCreate(['title' => 'core']);
-
-        // Create or retrieve the "arithmetic" category
-        $arithmeticCategory = Category::firstOrCreate(['title' => 'arithmetic']);
-
-        // Create categories for addition, subtraction, multiplication, and division
-        $additionCategory = Category::firstOrCreate(['title' => 'addition']);
-        $subtractionCategory = Category::firstOrCreate(['title' => 'subtraction']);
-        $multiplicationCategory = Category::firstOrCreate(['title' => 'multiplication']);
-        $divisionCategory = Category::firstOrCreate(['title' => 'division']);
+        // Retrieve or create problem levels, branches, and types
+        $problemLevel = ProblemLevel::where('title', 'core')->first();
+        $problemBranch = ProblemBranch::where('title', 'arithmetic')->first();
 
         // Addition problems
-        for ($i = 1; $i <= 9; $i++) {
-            for ($j = 1; $j <= 9; $j++) {
-                $solution = $i + $j;
-                $text = "$i + $j";
-
-                // Create the problem
-                $problem = Problem::create([
-                    'id' => Str::uuid(),
-                    'text' => $text,
-                    'solution' => $solution,
-                    'created_at' => new DateTime(),
-                ]);
-
-                // Assign the problem to categories
-                ProblemCategory::create([
-                    'problem_id' => $problem->id,
-                    'category_id' => $coreCategory->id,
-                ]);
-                ProblemCategory::create([
-                    'problem_id' => $problem->id,
-                    'category_id' => $arithmeticCategory->id,
-                ]);
-                ProblemCategory::create([
-                    'problem_id' => $problem->id,
-                    'category_id' => $additionCategory->id,
-                ]);
-            }
-        }
+        $this->seedProblems($problemLevel, $problemBranch, 'addition', '+');
 
         // Subtraction problems
-        for ($i = 1; $i <= 9; $i++) {
-            for ($j = 1; $j <= 9; $j++) {
-                if (($i - $j) > 0) {
-                    $solution = $i - $j;
-                    $text = "$i - $j";
-
-                    // Create the problem
-                    $problem = Problem::create([
-                        'id' => Str::uuid(),
-                        'text' => $text,
-                        'solution' => $solution,
-                        'created_at' => new DateTime(),
-                    ]);
-
-                    // Assign the problem to categories
-                    ProblemCategory::create([
-                        'problem_id' => $problem->id,
-                        'category_id' => $coreCategory->id,
-                    ]);
-                    ProblemCategory::create([
-                        'problem_id' => $problem->id,
-                        'category_id' => $arithmeticCategory->id,
-                    ]);
-                    ProblemCategory::create([
-                        'problem_id' => $problem->id,
-                        'category_id' => $subtractionCategory->id,
-                    ]);
-                }
-            }
-        }
+        $this->seedProblems($problemLevel, $problemBranch, 'subtraction', '-');
 
         // Multiplication problems
+        $this->seedProblems($problemLevel, $problemBranch, 'multiplication', '*');
+
+        // Division problems
+        $this->seedDivisionProblems($problemLevel, $problemBranch);
+    }
+
+    /**
+     * Seed problems of a specific type.
+     *
+     * @param  \App\Models\ProblemLevel  $level
+     * @param  \App\Models\ProblemBranch $branch
+     * @param  string $type
+     * @param  string $symbol
+     * @return void
+     */
+    private function seedProblems($level, $branch, $type, $symbol): void
+    {
+        $problemType = ProblemType::where('title', $type)->first();
+
         for ($i = 1; $i <= 9; $i++) {
-            for ($j = 1; $j <= 9; $j++) {
-                $solution = $i * $j;
-                $text = "$i * $j";
+            for ($j = $i; $j <= 9; $j++) { // Modified loop condition
+                // Determine text and solution based on problem type
+                $text = "$i$symbol$j";
+                switch ($type) {
+                    case 'addition':
+                        $solution = $i + $j;
+                        break;
+                    case 'subtraction':
+                        $solution = $i - $j;
+                        break;
+                    case 'multiplication':
+                        $solution = $i * $j;
+                        break;
+                }
 
                 // Create the problem
-                $problem = Problem::create([
+                Problem::create([
                     'id' => Str::uuid(),
+                    'problem_level_id' => $level->id,
+                    'problem_branch_id' => $branch->id,
+                    'problem_type_id' => $problemType->id,
                     'text' => $text,
                     'solution' => $solution,
                     'created_at' => new DateTime(),
-                ]);
-
-                // Assign the problem to categories
-                ProblemCategory::create([
-                    'problem_id' => $problem->id,
-                    'category_id' => $coreCategory->id,
-                ]);
-                ProblemCategory::create([
-                    'problem_id' => $problem->id,
-                    'category_id' => $arithmeticCategory->id,
-                ]);
-                ProblemCategory::create([
-                    'problem_id' => $problem->id,
-                    'category_id' => $multiplicationCategory->id,
+                    'updated_at' => new DateTime(),
                 ]);
             }
         }
+    }
 
-        // Division problems
-        for ($i = 1; $i <= 9; $i++) {
-            for ($j = 1; $j <= 9; $j++) {
-                if ($i > $j && $i % $j == 0) {
-                    $solution = $i / $j;
-                    $text = "$i / $j";
+    /**
+     * Seed division problems.
+     *
+     * @param  \App\Models\ProblemLevel  $level
+     * @param  \App\Models\ProblemBranch $branch
+     * @return void
+     */
+    private function seedDivisionProblems($level, $branch): void
+    {
+        $problemType = ProblemType::where('title', 'division')->first();
 
-                    // Create the problem
-                    $problem = Problem::create([
-                        'id' => Str::uuid(),
-                        'text' => $text,
-                        'solution' => $solution,
-                        'created_at' => new DateTime(),
-                    ]);
+        for ($i = 2; $i <= 9; $i++) { // Exclude division by 1
+            for ($j = 1; $j < $i; $j++) { // Exclude division with remainder (whole numbers only)
+                // Determine text and solution
+                $solution = $i / $j;
+                $text = "$i/$j";
 
-                    // Assign the problem to categories
-                    ProblemCategory::create([
-                        'problem_id' => $problem->id,
-                        'category_id' => $coreCategory->id,
-                    ]);
-                    ProblemCategory::create([
-                        'problem_id' => $problem->id,
-                        'category_id' => $arithmeticCategory->id,
-                    ]);
-                    ProblemCategory::create([
-                        'problem_id' => $problem->id,
-                        'category_id' => $divisionCategory->id,
-                    ]);
-                }
+                // Create the problem
+                Problem::create([
+                    'id' => Str::uuid(),
+                    'problem_level_id' => $level->id,
+                    'problem_branch_id' => $branch->id,
+                    'problem_type_id' => $problemType->id,
+                    'text' => $text,
+                    'solution' => $solution,
+                    'created_at' => new DateTime(),
+                    'updated_at' => new DateTime(),
+                ]);
             }
         }
-   
     }
 }

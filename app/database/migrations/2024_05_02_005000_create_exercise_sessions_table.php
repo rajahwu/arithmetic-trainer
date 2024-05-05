@@ -16,11 +16,9 @@ return new class extends Migration
             $table->uuid('id')->primary()->default(Str::uuid());
             $table->foreignId('user_id')->constrained();
             $table->enum('type', ['practice', 'assessment']);
-            $table->foreignId('practice_session_problem_set_id')
-                  ->constrained()
+            $table->uuid('practice_id')
                   ->nullable();
-            $table->foreginId('assessment_id')
-                  ->constrained()
+            $table->uuid('assessment_id')
                   ->nullable();
             $table->string('title');
             $table->text('description')->nullable();
@@ -28,6 +26,10 @@ return new class extends Migration
             $table->timestamp('end_time')->nullable();
             $table->boolean('is_completed')->default(0);
             $table->timestamps();
+
+            $table->foreign('practice_id')->references('id')->on('practices')->onDelete('cascade');
+            $table->foreign('assessment_id')->references('id')->on('assessments')->onDelete('cascade');
+
 
         });
     }
