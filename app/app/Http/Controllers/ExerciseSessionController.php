@@ -179,7 +179,8 @@ class ExerciseSessionController extends Controller
         return Inertia::render('Exercise/Start', [
             'problemSet' => $problems,
             'selected' => $exercise_session->type,
-            'id' => $id,
+            'catagory' => $category,
+            'id' => $id
         ]);
     }
     
