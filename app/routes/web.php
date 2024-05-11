@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProblemSetController;
 use App\Http\Controllers\ExerciseSessionController;
+use App\Http\Controllers\StaticImageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,6 +42,10 @@ Route::get('/progress', function () {
 
 // Route::resource('exercise', ProblemController::class);
 
+Route::controller(StaticImageController::class)->group(function() {
+    Route::get('/images/site-logo', 'site_logo')->name('site-logo');
+    Route::get('/images/site-title', 'site_title')->name('site-title');
+});
 
 
 require __DIR__.'/auth.php';

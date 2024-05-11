@@ -44,11 +44,11 @@ export default function Start({ id, selected, problemSet, auth }: PageProps) {
         <AuthenticatedLayout 
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Exercise</h2>}
-        >
+            >
             <div className="flex m-10">
                 <Head title="Practice" />
-                <div className="">
-                    <h1 className="uppercase text-blue-700">{selected}/{id}</h1>
+                <div className="mx-auto">
+                    <h1 className="uppercase text-white">{selected}/{id}</h1>
                     <div className="flex-row">
                         <div className="">
                             {/* Check if category exists before rendering */}
@@ -57,7 +57,7 @@ export default function Start({ id, selected, problemSet, auth }: PageProps) {
                             ))}
                         </div>
                         <div className="flex">
-                            <p className="p-3">{problemSet[currentIndex]?.text}</p>
+                            <p className="text-5xl p-3">{problemSet[currentIndex]?.text}</p>
                             <div className="flex">
                                 <TextInput value={inputValue} onChange={handleInputChange} className="" />
                                 <PrimaryButton className="m-2" onClick={checkAnswer}>Check</PrimaryButton>
@@ -65,13 +65,17 @@ export default function Start({ id, selected, problemSet, auth }: PageProps) {
                                 <PrimaryButton className="m-2" onClick={goToNextProblem} disabled={isAtLastProblem}>Next</PrimaryButton>
                             </div>
                         </div>
-                        <p className="text-center">{hasAttempted && !result ? 'Incorrect!' : ''}</p>
-                        <p className="text-center">{hasAttempted && result ? 'Correct' : ''}</p>
+                        <div className="flex flex-row-reverse">
+                            <div className="">
+                                <PrimaryButton>Submit</PrimaryButton>
+                            </div>
+                            <div className="basis-1/4 content-center">
+                            {hasAttempted && !result ? <p className="bg-blue-500 border-2 border-rose-600  rounded mx-2 text-center text-2xl text-rose-700">Incorrect!</p> : null}
+                                <p className="bg-blue-300 border-lime-500 rounded mx-2 text-center text-2xl text-lime-700">{hasAttempted && result ? 'Correct' : ''}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="mx-16">
-                <PrimaryButton>Submit</PrimaryButton>
             </div>
         </AuthenticatedLayout>
     );
