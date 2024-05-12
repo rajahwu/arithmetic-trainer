@@ -1,5 +1,6 @@
 import { Link, Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
+import { FaGithub, FaLinkedin, FaDiscord  } from "react-icons/fa";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>) {
     const handleImageError = () => {
@@ -12,50 +13,74 @@ export default function Welcome({ auth, laravelVersion, phpVersion }: PageProps<
     return (
         <>
             <Head title="Welcome" />
-            <div className="bg-blue-800 text-white"> 
-                <div className=" text-blue-500 relative min-h-screen mx-auto selection:bg-[#FF2D20] selection:text-white">
-                    <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                    <div className="text-center text-sm-[rgb(59 130 246)] text-white mx-auto">
-                            github linkedin twitter
+            <div className="flex flex-col mt-10">
+                <header className="">
+                    <nav className="flex flex-1 justify-center mx-auto uppercase">
+                        {auth.user ? (
+                            <Link
+                                href={route('dashboard')}
+                                className="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-[#f19a3e] focus:outline-none focus-visible:ring-[#FF2D20]"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
+                                <Link
+                                    href={route('login')}
+                                    className="rounded-md px-3 py-2 text-2xl text-[#f19a3e] hover:text-white hover:bg-blue-700 hover:text-3xl ring-1 ring-transparent transition hover:text--[#f19a3e] focus:outline-none focus-visible:ring-[#FF2D20]"
+                                >
+                                    Log in
+                                </Link>
+                                <Link
+                                    href={route('register')}
+                                    className="rounded-md px-3 py-2 text-2xl text-[#f19a3e] hover:text-whit ring-1 ring-transparent transition hover:text-black/70 hover:bg-blue-300 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
+                    </nav>
+                </header>
+                <main className="">
+                    <div className="flex justify-center">
+                        <img id="background" className="opacity-65 mx-auto" src={route('site-title')} />
                     </div>
-                        <header className="">
-                            <div className="flex justify-center lg:col-start-2">
-                                <img id="background" className="absolute opacity-65 mx-auto" src={route('site-title')} />
-                            </div>
-                            <nav className="flex flex-1 justify-center mx-auto">
-                                {auth.user ? (
-                                    <Link
-                                        href={route('dashboard')}
-                                        className="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-[#f19a3e] focus:outline-none focus-visible:ring-[#FF2D20]"
-                                    >
-                                        Dashboard
-                                    </Link>
-                                ) : (
-                                    <>
-                                        <Link
-                                            href={route('login')}
-                                            className="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text--[#f19a3e] focus:outline-none focus-visible:ring-[#FF2D20]"
-                                        >
-                                            Log in
-                                        </Link>
-                                        <Link
-                                            href={route('register')}
-                                            className="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                        >
-                                            Register
-                                        </Link>
-                                    </>
-                                )}
-                            </nav>
-                        </header>
-
-                        <main className="mt-6">
-                            <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                              {/* <h1 className="text-5xl">Arithmitic Trainer</h1> */}
-                            </div>
-                        </main>
+                </main>
+                <footer className="mono-title text-center text-white mx-auto">
+                    <div className="flex gap-5">
+                        <a 
+                        href="https://github.com/rajahwu"
+                        target="_blank"
+                        >
+                        <FaGithub 
+                        color="#f19a3e"
+                        size="2rem"
+                        className="hover:size-10 hover:bg-blue-300 rounded ease-in-out"
+                        />
+                        </a>
+                        <a
+                        href="https://www.linkedin.com/in/vincent-radford-1a9599173/"
+                        target="_blank"
+                        >
+                        <FaLinkedin 
+                        color="#f19a3e"
+                        size="2rem"
+                        className="hover:size-10 hover:bg-blue-300 rounded ease-in-out"
+                        />
+                        </a>
+                        <a 
+                        href="https://discord.com/"
+                        target="_blank"
+                        className="hover:size-10 hover:bg-blue-300 rounded ease-in-out"
+                            >
+                        <FaDiscord 
+                        color="#f19a3e"
+                        size="2rem"
+                        className="hover:size-10 hover:bg-blue-300 rounded ease-in-out"
+                        />
+                        </a>
                     </div>
-                </div>
+                </footer>
             </div>
         </>
     );

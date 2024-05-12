@@ -1,10 +1,28 @@
-@font-face {
+/* @font-face {
     font-family: 'ibm_vga8';
     src: url('/fonts/ibm_vga8.woff2') format('woff2'),
          url('/fonts/ibm_vga8.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap');
+
+/* .major-mono-display-regular {
+    font-family: "Major Mono Display", monospace;
+    font-weight: 400;
+    font-style: normal;
+  } */
+
+/* .spline-sans-mono {
+    font-family: "Spline Sans Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+   */
+
+  
 
 mark {
     @apply bg-transparent text-red-500;

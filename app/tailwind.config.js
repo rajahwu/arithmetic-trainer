@@ -14,6 +14,8 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'mono-title': ['Major Mono Display', ...defaultTheme.fontFamily.mono],
+                mono: ['Spline Sans Mono', ...defaultTheme.fontFamily.mono]
             },
         },
     },
