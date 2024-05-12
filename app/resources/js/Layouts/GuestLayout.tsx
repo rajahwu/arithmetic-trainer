@@ -8,8 +8,12 @@ export default function Guest({ children }: PropsWithChildren) {
             <div>
                 <ApplicationLogo className="" />
             </div>
-
-            <div className="bg-blue-700 text-white w-full sm:max-w-md px-6 py-4 shadow-md overflow-hidden sm:rounded-lg">
+            <Link 
+            href="/"
+            className="major-mono-display-regular text-3xl my-5"
+            >
+                Arithmetic Trainer</Link>
+            <div className="border bg-blue-700 text-white w-full sm:max-w-md px-6 py-4 shadow-md overflow-hidden sm:rounded-lg">
                 {children}
             </div>
         </div>

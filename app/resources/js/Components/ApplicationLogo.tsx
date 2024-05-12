@@ -10,6 +10,7 @@ export default function ApplicationLogo() {
 
     return (
         <div className={!isTransparent ? "bg-black backdrop-grayscale mt-3 rounded flex flex-col text-center text-white text-3xl" : ""}>
+                <Link href="/">
                 <img
                 height={!isTransparent ? 50 : 250}
                 width={!isTransparent ? 50 : 250}
@@ -18,6 +19,7 @@ export default function ApplicationLogo() {
                     shouldAnimate ? 'animate-spin hover:animate-none ease-in-out' : ''
                 }`}
                 />
+                </Link>
            {!isTransparent && <Link href="/" className="bg-black hover:text-rose-300">
                 Arithmetic Trainer
             </Link>}

@@ -3,6 +3,10 @@ import { useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps } from '@/types';
 import PrimaryButton from '@/Components/PrimaryButton';
+import NumberInput from '@/Components/NumberInput';
+import Checkbox from '@/Components/Checkbox';
+import CheckboxFieldSet from '@/Components/CheckboxFieldSet';
+import NumberProblemsInputFieldSet from '@/Components/NumberProblemsInputFieldSet';
 import TextInput from "@/Components/TextInput";
 
 export default function Settings({ auth, settings }: PageProps) {
@@ -19,21 +23,23 @@ export default function Settings({ auth, settings }: PageProps) {
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
+    console.log({name, value, checked});
   
     // Check if data[name] is an array, initialize as empty array if not
     const newData = Array.isArray(data[name]) ? [...data[name]] : [];
   
     if (checked) {
-      newData.push(value);
+        newData.push(value);
     } else {
-      const index = newData.indexOf(value);
-      if (index !== -1) {
-        newData.splice(index, 1);
-      }
+        const index = newData.indexOf(value);
+        if (index !== -1) {
+            newData.splice(index, 1);
+        }
     }
-  
-    setData(name, newData);
-  };
+
+    setData(name, newData); // Update the state
+    console.log({data}); // Log the current state
+};
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,59 +49,39 @@ export default function Settings({ auth, settings }: PageProps) {
   return (
     <AuthenticatedLayout 
       user={auth.user}
-      header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Exercise: Define Practice</h2>}
+      header={<h2 className="major-mono-display-regular text-[var(--primary-color)] font-semibold text-2xl">Exercise: Define Practice</h2>}
     >
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <TextInput
-            type="number"
-            name="problem_count"
+      <form className="major-mono-display-regular text-white text-sm" onSubmit={handleSubmit}>
+        <div className="flex flex-col">
+          <CheckboxFieldSet
+            heading="Select Level"
+            name="problem_levels"
+            checkboxData={problem_levels}
+            handleChange={handleChange} 
+            />
+
+          <CheckboxFieldSet
+            heading="Select Branches"
+            name="problem_branches"
+            checkboxData={problem_branches}
+            handleChange={handleChange} 
+            />
+
+          <CheckboxFieldSet
+            heading="Select Problem Types"
+            name="problem_types"
+            checkboxData={problem_types}
+            handleChange={handleChange} 
+            />
+
+            
+          <NumberProblemsInputFieldSet
+            heading="No. of problems"
             value={data.problem_count}
             onChange={(e) => setData('problem_count', e.target.value)}
-            />
-        </fieldset>
-        <fieldset>
-          {problem_levels.map(level => (
-            <label key={level.id}>
-              <input
-                type="checkbox"
-                name="problem_levels"
-                value={level.id}
-                checked={data.problem_levels.includes(level.title)}
-                onChange={handleChange}
-                />
-              {level.title}
-            </label>
-          ))}
-        </fieldset>
-        <fieldset>
-          {problem_branches.map(branch => (
-            <label key={branch.id}>
-              <input
-                type="checkbox"
-                name="problem_branches"
-                value={branch.id}
-                checked={data.problem_branches.includes(branch.title)}
-                onChange={handleChange}
-                />
-              {branch.title}
-            </label>
-          ))}
-        </fieldset>
-        <fieldset>
-          {problem_types.map(type => (
-            <label key={type.id}>
-              <input
-                type="checkbox"
-                name="problem_types"
-                value={type.id}
-                checked={data.problem_types.includes(type.title)}
-                onChange={handleChange}
-                />
-              {type.title}
-            </label>
-          ))}
-        </fieldset>
+          />
+        
+        </div>
         <PrimaryButton type="submit" disabled={processing}>
           Continue
         </PrimaryButton>

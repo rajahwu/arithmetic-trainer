@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
-class Problem extends Model
+class Problem extends Model 
 {
     use HasFactory, HasUuids;
 
     protected $table = 'problems';
 
-    public function practiceProblemSets()
+    public function practiceProblemSets(): HasMany
     {
-        return $this->hasMany(PracticeProblemSet::class);
+        return $this->hasMany(PracticeProblemSet::class, 'problem_id', 'id');
     }
    
 }

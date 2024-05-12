@@ -29,9 +29,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
     return (
         <GuestLayout>
             <Head title="Log in" />
-
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
@@ -81,7 +79,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="underline text-amber-400 text-sm hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className=" underline text-white text-sm rounded-md"
                         >
                             Forgot your password?
                         </Link>

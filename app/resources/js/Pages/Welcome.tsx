@@ -27,13 +27,13 @@ export default function Welcome({ auth, laravelVersion, phpVersion }: PageProps<
                             <>
                                 <Link
                                     href={route('login')}
-                                    className="rounded-md px-3 py-2 text-2xl text-[#f19a3e] hover:text-white hover:bg-blue-700 hover:text-3xl ring-1 ring-transparent transition hover:text--[#f19a3e] focus:outline-none focus-visible:ring-[#FF2D20]"
+                                    className="spline-sans-mono rounded-md px-3 py-2 text-2xl text-[#f19a3e] hover:text-white hover:bg-blue-700 hover:text-3xl ring-1 ring-transparent transition hover:text--[#f19a3e] focus:outline-none focus-visible:ring-[#FF2D20]"
                                 >
                                     Log in
                                 </Link>
                                 <Link
                                     href={route('register')}
-                                    className="rounded-md px-3 py-2 text-2xl text-[#f19a3e] hover:text-whit ring-1 ring-transparent transition hover:text-black/70 hover:bg-blue-300 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                    className="spline-sans-mono rounded-md px-3 py-2 text-2xl text-[#f19a3e] hover:text-whit ring-1 ring-transparent transition hover:text-black/70 hover:bg-blue-300 focus:outline-none focus-visible:ring-[#FF2D20]"
                                 >
                                     Register
                                 </Link>

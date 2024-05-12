@@ -8,6 +8,8 @@ import { PageProps } from '@/types';
 
 export default function Start({ id, selected, problemSet, auth }: PageProps) {
 
+    console.log('Exericise/Start Page: ', {id, selected, problemSet});
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [inputValue, setInputValue] = useState('');
     const [result, setResult] = useState(false);

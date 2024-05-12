@@ -16,17 +16,17 @@ class PracticeProblemSet extends Model
     protected $table = 'practice_problem_sets';
     protected $fillable = [
         'practice_id',
-        'problem_id'
+        'problem_id' 
     ];
 
-    public function problems(): BelongsTo
+    public function problem(): BelongsTo
     {
-        return $this->belongsTo(Problem::class);
+        return $this->belongsTo(Problem::class, 'id', 'problem_id');
     }
 
     public function post(): BelongsTo
     {
-        return $this->belongsTo(Practice::class);
+        return $this->belongsTo(Practice::class, 'id', 'practice_d');
     }
    
 

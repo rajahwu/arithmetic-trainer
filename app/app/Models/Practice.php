@@ -12,16 +12,18 @@ class Practice extends Model
     use HasFactory, HasUuids;
 
     protected $table = 'practices';
-    protected $fillable = [
+    protected $fillable = [ 
         'type',
         'title',
         'description',
-        'created_by'
+        'created_by',
+        'created_at',
+        'updated_at'
     ];
 
-    public function practiceProblemSets()
+    public function practiceProblemSets(): HasMany
     {
-        return $this->hasMany(PracticeProblemSet::class);
+        return $this->hasMany(PracticeProblemSet::class, 'practice_id', 'id');
     }
 
 }

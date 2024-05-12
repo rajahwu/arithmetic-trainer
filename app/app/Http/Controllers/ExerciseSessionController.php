@@ -14,7 +14,7 @@ use App\Models\ProblemBranch;
 use App\Models\ProblemType;
 use App\Models\Problem;
 use App\Models\Practice;
-use App\Models\PracticeProblemSet;
+use App\Models\PracticeProblemSet; 
 use App\Models\ExerciseSession;
 
 class ExerciseSessionController extends Controller
@@ -91,6 +91,7 @@ class ExerciseSessionController extends Controller
     }
 
     public function create(Request $request) {
+        // dd($request);
         $exercise_type = $request->input('exercise_type');
         $exercise_category = $request->input('exercise_category');
         $problem_levels = $request->input('problem_levels');
@@ -100,7 +101,6 @@ class ExerciseSessionController extends Controller
         $session = null;
         $practiceProblemSets = [];
 
-
         if ($exercise_type === 'practice') {
             $title = $exercise_type . ' ' . $exercise_category;
             $session = Practice::create([
@@ -109,7 +109,6 @@ class ExerciseSessionController extends Controller
                 'description' => $exercise_type . ' ' . $exercise_category,
                 'created_by' => auth()->id()
             ]);
-        
             // Loop through each combination of levels, branches, and types
             foreach ($problem_levels as $level) {
                 foreach ($problem_branches as $branch) {
@@ -119,7 +118,6 @@ class ExerciseSessionController extends Controller
                             ->where('problem_branch_id', $branch)
                             ->where('problem_type_id', $type)
                             ->get();
-        
                         // Create practice problem set for each problem
                         foreach ($problems as $problem) {
                             $practiceProblemSets[] = PracticeProblemSet::create([
@@ -134,7 +132,7 @@ class ExerciseSessionController extends Controller
 
         $exercise_session = ExerciseSession::create([
             'user_id' => auth()->id(),
-            'type' => $exercise_type,
+            'type' => 'practice',
             'practice_id' => $session->id,
             'title' => $exercise_type . ' ' . $exercise_category,
             'description' => $exercise_type . ' ' . $exercise_category,
@@ -142,6 +140,7 @@ class ExerciseSessionController extends Controller
             'end_time' => null,
             'is_completed' => false
         ]);
+
         
         return redirect()->route('exercise.start', [
             'type' => $exercise_type,
@@ -158,6 +157,7 @@ class ExerciseSessionController extends Controller
         $exercise_session = ExerciseSession::findOrFail($id);
         // Fetch all problems associated with the practice ID
         $problem_set = PracticeProblemSet::where('practice_id', $exercise_session->practice_id)->get();
+        $count = $problem_set->count();
         $problems = [];
         foreach ($problem_set as $item) {
             $problem = Problem::find($item->problem_id);
@@ -174,10 +174,10 @@ class ExerciseSessionController extends Controller
                 ];
             }
         }
-    
-
+        
         return Inertia::render('Exercise/Start', [
             'problemSet' => $problems,
+            'count' => $count,
             'selected' => $exercise_session->type,
             'catagory' => $category,
             'id' => $id
