@@ -14,14 +14,21 @@ return new class extends Migration
     {
         Schema::create('problems', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(Str::uuid());
-            $table->foreginId('problem_level_id')->constrianted();
-            $table->foreginId('problem_branch_id')->constrianted();
-            $table->foreginId('problem_type_id')->constrianted();
+            $table->uuid('problem_level_id');
+            $table->uuid('problem_branch_id');
+            $table->uuid('problem_type_id');
             $table->text('text');
             $table->text('solution');
             $table->text('explanation')->nullable();
             $table->text('references')->nullable();
             $table->timestamps();
+
+            $table->foreign('problem_level_id')->references('id')->on('problem_levels')->onDelete('cascade');
+            $table->foreign('problem_branch_id')->references('id')->on('problem_branches')->onDelete('cascade');
+            $table->foreign('problem_type_id')->references('id')->on('problem_types')->onDelete('cascade');
+
+
+            
         });
     }
 

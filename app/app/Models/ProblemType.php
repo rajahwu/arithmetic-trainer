@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PracticeSessionProblemSet extends Model
+class ProblemType extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'practice_session_problem_sets';
+    protected $table = 'problem_types';
 
 }

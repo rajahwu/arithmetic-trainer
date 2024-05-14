@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap');
+
+:root {
+    --primary-color: #F19A3E;
+}
+
+
+.major-mono-display-regular {
+    font-family: "Major Mono Display", monospace;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.spline-sans-mono {
+    font-family: "Spline Sans Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+
+  
+
+mark {
+    @apply bg-transparent text-red-500;
+}
+
+.content {
+
+    p {
+        @apply mb-6;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply text-lg uppercase;
+    }
+
+    a {
+        @apply text-white px-1;
+        &:hover {
+            @apply text-[var(--primary-color)];
+        }
+    }
+
+    ul:not(.list-none) {
+        @apply pl-0 ml-16 mb-6;
+        list-style-type: square;
+        li {
+            @apply mb-1;
+        }
+    }
+
+    > blockquote {
+        @apply font-bold text-lg mb-6 border-l-4 border-cyan-500 pl-8 ml-8 py-8;
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+
+    img {
+        @apply max-w-full;
+    }
+
+    > table {
+        @apply w-auto text-left border-2 border-collapse mb-6;
+        th {
+            @apply py-1 px-4 uppercase tracking-widest border-2;
+        }
+
+        td {
+            @apply py-1 px-4 border-2;
+        }
+
+        p {
+            @apply leading-normal;
+        }
+  }
+}
+
+@screen lg {
+    .content img {
+        @apply float-left mr-8;
+    }
+}

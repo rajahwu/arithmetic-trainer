@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use App\Models\Category;
-
+use App\Models\ProblemLevel;
+use App\Models\ProblemBranch;
+use App\Models\ProblemType;
 use App\Models\Problem;
+use App\Models\Practice;
+use App\Models\PracticeProblemSet; 
+use App\Models\ExerciseSession;
 
 class ExerciseSessionController extends Controller
 {
@@ -28,29 +32,58 @@ class ExerciseSessionController extends Controller
     }
 
     public function select() {
-        return Inertia::render('Exercise/Select');
+
+        return Inertia::render('Exercise/Select', [
+            
+        ]);
     }
     
     public function settings(Request $request) {
-        $selected = $request->input('selected', '');
-        switch ($selected) {
+        $selected = $request->input('selected');
+        $exercise_type = $selected['type'];
+        $exercise_category = $selected['category'];
+
+        switch ($exercise_type) {
             case 'practice':
-                $categories = Category::all();
+                $levels = ProblemLevel::all();
+                $branches = ProblemBranch::all();
+                $types = ProblemType::all();
                 return Inertia::render('Exercise/Practice/Settings', [
-                    'selected' => $selected,
-                    'categories' => $categories
+                    'settings' => [
+                        'exercise_type' => $exercise_type,
+                        'exercise_category' => $exercise_category,
+                        'problem_levels' => $levels,
+                        'problem_branches' => $branches,
+                        'problem_types' => $types
+                        ]
                 ]);
-
-                case 'assestment':
-                    return Inertia::render('Exercise/Assestment/Settings', [
-                        'selected' => $selected
-                    ]);
-
-                case 'standard':
-                    $categories = Category::all();
-                    return Inertia::render('Exercise/Practice/Settings', [
-                        'selected' => $selected,
-                        'categories' => $categories
+                
+            case 'assestment':
+                $levels = ProblemLevel::all();
+                $branches = ProblemBranch::all();
+                $types = ProblemType::all();
+                return Inertia::render('Exercise/Assestment/Settings', [
+                    'settings' => [
+                        'exercise_type' => $exercise_type,
+                        'exercise_category' => $exercise_category,
+                        'problem_levels' => $levels,
+                        'problem_branches' => $branches,
+                        'problem_types' => $types
+                        ]
+                ]);
+                    
+            case 'standard':
+                $levels = ProblemLevel::all();
+                $branches = ProblemBranch::all();
+                $types = ProblemType::all();
+                return Inertia::render('Exercise/Practice/Settings', [
+                    'settings' => [
+                        'exercise_type' => $exercise_type,
+                        'exercise_category' => $exercise_category,
+                        'problem_levels' => $levels,
+                        'problem_branches' => $branches,
+                        'problem_types' => $types
+                        ]
                 ]);
         }
         return Redirect::route('exercise.select');
@@ -58,74 +91,99 @@ class ExerciseSessionController extends Controller
     }
 
     public function create(Request $request) {
-        $selected = $request->input('selected');
-        $categories = $request->input('categories');
+        // dd($request);
+        $exercise_type = $request->input('exercise_type');
+        $exercise_category = $request->input('exercise_category');
+        $problem_levels = $request->input('problem_levels');
+        $problem_branches = $request->input('problem_branches');
+        $problem_types = $request->input('problem_types');
 
-        $query =  [
-            'type' => $selected,
-            'categories' => implode(",", $categories),
-            'id' => "1"
-        ];
+        $session = null;
+        $practiceProblemSets = [];
+
+        if ($exercise_type === 'practice') {
+            $title = $exercise_type . ' ' . $exercise_category;
+            $session = Practice::create([
+                'type' => $exercise_category,
+                'title' => $title,
+                'description' => $exercise_type . ' ' . $exercise_category,
+                'created_by' => auth()->id()
+            ]);
+            // Loop through each combination of levels, branches, and types
+            foreach ($problem_levels as $level) {
+                foreach ($problem_branches as $branch) {
+                    foreach ($problem_types as $type) {
+                        // Fetch problems based on the selected levels, branches, and types
+                        $problems = Problem::where('problem_level_id', $level)
+                            ->where('problem_branch_id', $branch)
+                            ->where('problem_type_id', $type)
+                            ->get();
+                        // Create practice problem set for each problem
+                        foreach ($problems as $problem) {
+                            $practiceProblemSets[] = PracticeProblemSet::create([
+                                'practice_id' => $session->id,
+                                'problem_id' => $problem->id
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        $exercise_session = ExerciseSession::create([
+            'user_id' => auth()->id(),
+            'type' => 'practice',
+            'practice_id' => $session->id,
+            'title' => $exercise_type . ' ' . $exercise_category,
+            'description' => $exercise_type . ' ' . $exercise_category,
+            'start_time' => now(), 
+            'end_time' => null,
+            'is_completed' => false
+        ]);
+
         
-        return redirect()->route('exercise.start', $query);
-    }
+        return redirect()->route('exercise.start', [
+            'type' => $exercise_type,
+            'category' => $exercise_category,
+            'id' => $exercise_session->id,
+        ]);
+    }        
     
     public function start(Request $request) {
         $id = $request->query('id');
-        $selected = $request->query('type');
-        $categories = explode(",", $request->query('categories'));
-        $categories = array_values($categories);
-    
-        // Check if "core" or "arithmetic" is selected
-        $coreSelected = in_array('core', $categories);
-        $arithmeticSelected = in_array('arithmetic', $categories);
-    
-        // Check if specific operations are selected
-        $additionSelected = in_array('addition', $categories);
-        $subtractionSelected = in_array('subtraction', $categories);
-        $multiplicationSelected = in_array('multiplication', $categories);
-        $divisionSelected = in_array('division', $categories);
-    
-        // Fetch problems based on the selected categories
-        $problemQuery = Problem::select('problems.*')
-            ->join('problem_categories', 'problems.id', '=', 'problem_categories.problem_id')
-            ->join('categories', 'problem_categories.category_id', '=', 'categories.id');
-    
-        if ($coreSelected) {
-            // Add "core" category to the query
-            $problemQuery->orWhere('categories.title', 'core');
-        }
-    
-        if ($arithmeticSelected) {
-            // Add "arithmetic" category to the query
-            $problemQuery->orWhere('categories.title', 'arithmetic');
-        }
-    
-        if ($additionSelected || $subtractionSelected || $multiplicationSelected || $divisionSelected) {
-            // Add specific operations to the query
-            if ($additionSelected) {
-                $problemQuery->orWhere('categories.title', 'addition');
-            }
-            if ($subtractionSelected) {
-                $problemQuery->orWhere('categories.title', 'subtraction');
-            }
-            if ($multiplicationSelected) {
-                $problemQuery->orWhere('categories.title', 'multiplication');
-            }
-            if ($divisionSelected) {
-                $problemQuery->orWhere('categories.title', 'division');
+        $type = $request->query('type');
+        $category = $request->query('category');
+        // Fetch the ExerciseSession by ID
+        $exercise_session = ExerciseSession::findOrFail($id);
+        // Fetch all problems associated with the practice ID
+        $problem_set = PracticeProblemSet::where('practice_id', $exercise_session->practice_id)->get();
+        $count = $problem_set->count();
+        $problems = [];
+        foreach ($problem_set as $item) {
+            $problem = Problem::find($item->problem_id);
+            if ($problem) {
+                $problems[] = [
+                    'id' => $problem->id,
+                    'problem_level_id' => $problem->problem_level_id,
+                    'problem_branch_id' => $problem->problem_level_id,
+                    'problem_type_id' => $problem->problem_level_id,
+                    'text' => $problem->text,
+                    'solution' => $problem->solution,
+                    'explanation' => $problem->explanation,
+                    'references' => $problem->references
+                ];
             }
         }
-    
-        // Get the problems matching the query
-        $problem_set = $problemQuery->get();
-    
+        
         return Inertia::render('Exercise/Start', [
-            'problemSet' => $problem_set,
-            'selected' => $selected,
+            'problemSet' => $problems,
+            'count' => $count,
+            'selected' => $exercise_session->type,
+            'catagory' => $category,
             'id' => $id
         ]);
     }
+    
     
 
     public function summary(Request $request) {

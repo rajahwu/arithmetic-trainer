@@ -12,13 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assessment_session_attempts', function (Blueprint $table) {
+        Schema::create('practice_problem_sets', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(Str::uuid());
-            $table->uuid('session_id');
-            $table->tinyInteger('score');
+            $table->uuid('practice_id');
+            $table->uuid('problem_id');
             $table->timestamps();
             
-            $table->foreign('session_id')->references('id')->on('exercise_sessions')->onDelete('cascade');
+            $table->foreign('practice_id')->references('id')->on('practices')->onDelete('cascade');
+            $table->foreign('problem_id')->references('id')->on('problems')->onDelete('cascade');
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('assessment_session_attempts');
+        Schema::dropIfExists('practice_problem_sets');
     }
 };

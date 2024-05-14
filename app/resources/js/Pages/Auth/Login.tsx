@@ -29,9 +29,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
     return (
         <GuestLayout>
             <Head title="Log in" />
-
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
@@ -73,7 +71,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
+                        <span className="ms-2 text-sm text-white">Remember me</span>
                     </label>
                 </div>
 
@@ -81,7 +79,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                            className=" underline text-white text-sm rounded-md"
                         >
                             Forgot your password?
                         </Link>
