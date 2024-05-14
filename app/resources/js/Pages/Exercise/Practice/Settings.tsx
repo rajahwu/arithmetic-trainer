@@ -49,7 +49,7 @@ export default function Settings({ auth, settings }: PageProps) {
   return (
     <AuthenticatedLayout 
       user={auth.user}
-      header={<h2 className="major-mono-display-regular text-[var(--primary-color)] font-semibold text-2xl">Exercise: Define Practice</h2>}
+      header={<h2 className="major-mono-display-regular text-white font-semibold text-2xl">Exercise: Define Practice</h2>}
     >
       <form className="major-mono-display-regular text-white text-sm" onSubmit={handleSubmit}>
         <div className="flex flex-col">

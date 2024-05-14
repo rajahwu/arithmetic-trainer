@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from "@/Components/TextInput";
+import { CiCircleCheck } from "react-icons/ci";
 import { PageProps } from '@/types';
 
 export default function Start({ id, selected, problemSet, auth }: PageProps) {
@@ -45,35 +46,41 @@ export default function Start({ id, selected, problemSet, auth }: PageProps) {
     return (
         <AuthenticatedLayout 
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Exercise</h2>}
+            header={<h2 className="major-mono-display-regular font-semibold text-xl text-[var(--primary-color)]">Exercise</h2>}
             >
-            <div className="flex m-10">
+            <div className="flex items-center justify-center">
                 <Head title="Practice" />
-                <div className="mx-auto">
-                    <h1 className="uppercase text-white">{selected}/{id}</h1>
-                    <div className="flex-row">
-                        <div className="">
-                            {/* Check if category exists before rendering */}
-                            {problemSet[currentIndex]?.category && problemSet[currentIndex]?.category.map((element, index) => (
-                                <span className="p-3 uppercase" key={index}>{element}</span>
-                            ))}
-                        </div>
-                        <div className="flex">
-                            <p className="text-5xl p-3">{problemSet[currentIndex]?.text}</p>
-                            <div className="flex">
-                                <TextInput value={inputValue} onChange={handleInputChange} className="" />
-                                <PrimaryButton className="m-2" onClick={checkAnswer}>Check</PrimaryButton>
-                                <PrimaryButton className="m-2" onClick={goToPreviousProblem} disabled={isAtFirstProblem}>Previous</PrimaryButton>
-                                <PrimaryButton className="m-2" onClick={goToNextProblem} disabled={isAtLastProblem}>Next</PrimaryButton>
+                <div className="flex flex-col justify-center items-center mx-auto">
+                    <h1 className="uppercase text-xl spline-sans-mono text-[var(--primary-color)] mt-5">{selected}</h1>
+                    <div className="flex-row mt-5">
+                        <div className="border mb-10 p-5 rounded bg-blue-900">
+                            <div className="flex flex-col">
+                                <div className="flex justify-between">
+                                    <PrimaryButton className="my-2 hover:bg-[var(--primary-color)] " onClick={goToPreviousProblem} disabled={isAtFirstProblem}>Previous</PrimaryButton>
+                                    <PrimaryButton className="my-2 hover:bg-[var(--primary-color)] " onClick={goToNextProblem} disabled={isAtLastProblem}>Next</PrimaryButton>
+                                </div>
+                                <div className="flex ">
+                                    <p className="major-mono-display-regular font-semibold text-white text-5xl text-center p-3">{problemSet[currentIndex]?.text}</p>
+                                    <div className="flex">
+                                        <TextInput value={inputValue} onChange={handleInputChange} className="text-left w-24" />
+                                        <PrimaryButton className="rounded-full mx-3" onClick={checkAnswer}>
+                                            <CiCircleCheck
+                                            size="2.5rem"
+                                            color="green"
+                                            className="hover:border-2 hover:border-[var(--primary-color)] hover:bg-[var(--primary-color)] rounded-full"
+                                            />
+                                        </PrimaryButton>
+                                    </div>
+                                </div>
+                                <div className="basis-1/4 content-center">
+                                {hasAttempted && !result ? <p className="bg-blue-500 border-2 border-rose-600 my-2  rounded mx-2 text-center text-2xl text-rose-700">Incorrect!</p> : null}
+                                    <p className="bg-blue-300 border-lime-500 rounded mx-2 text-center text-2xl text-lime-700">{hasAttempted && result ? 'Correct' : ''}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-row-reverse">
-                            <div className="">
-                                <PrimaryButton>Submit</PrimaryButton>
-                            </div>
-                            <div className="basis-1/4 content-center">
-                            {hasAttempted && !result ? <p className="bg-blue-500 border-2 border-rose-600  rounded mx-2 text-center text-2xl text-rose-700">Incorrect!</p> : null}
-                                <p className="bg-blue-300 border-lime-500 rounded mx-2 text-center text-2xl text-lime-700">{hasAttempted && result ? 'Correct' : ''}</p>
+                            <div className="flex justify-end">
+                                <div className="flex pt-5 pb-0">
+                                    <PrimaryButton className="hover:bg-[var(--primary-color)]" >Submit {selected}</PrimaryButton>
+                                </div>
                             </div>
                         </div>
                     </div>
