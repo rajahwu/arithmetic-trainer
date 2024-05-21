@@ -1,5 +1,3 @@
-<!-- template readme -->
-
 # Arithmetic Trainer
 
 ## Overview
@@ -53,6 +51,8 @@ To get started with development, follow these steps:
 
 ### User Experience Flow
 
+<!-- TODO Update Flow Chart -->
+
 ```mermaid
 graph TD
     A[Start] --> B[Login / Signup]
@@ -89,6 +89,10 @@ graph TD
 ### Login Screen
 
 ![login screen](./readme/assets/images/site/login-screen.png)
+
+<!-- TODO Add remaing page screen shots -->
+
+<!-- TODO Add backend route docs -->
 
 ## Contact
 
