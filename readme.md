@@ -61,19 +61,26 @@ graph TD
     C -->|No| B
     D --> E[Select Exercise Type]
     E --> F{Practice?}
-    F -->|Yes| G[Practice Session]
-    F -->|No| H[Select Difficulty Level]
-    G --> I[Display Question]
-    I --> J{Answered all questions?}
-    J -->|No| G
-    J -->|Yes| K[Practice Summary]
-    K --> D
-    H --> I
-    D --> L[View Progress]
-    L --> M[View Leaderboard]
-    M --> D
-    D --> N[Logout]
-    N --> O[End]
+    F -->|Yes| G[Settings: Select Level, Branches, Types]
+    F -->|No| H[Settings: Select Assessment]
+    G --> I[Create Practice Session]
+    I --> J[Start Practice Session]
+    J --> K{Answered all questions?}
+    K -->|No| J
+    K -->|Yes| L[Practice Summary]
+    L --> D
+    H --> M[Create Assessment Session]
+    M --> N[Start Assessment Session]
+    N --> O{Answered all questions?}
+    O -->|No| N
+    O -->|Yes| P[Assessment Summary]
+    P --> D
+    D --> Q[View Progress]
+    Q --> R[View Leaderboard]
+    R --> D
+    D --> S[Logout]
+    S --> T[End]
+
 ```
 
 ## Arithmetic Trainer Screen Shots
