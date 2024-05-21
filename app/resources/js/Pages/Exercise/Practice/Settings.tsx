@@ -23,7 +23,6 @@ export default function Settings({ auth, settings }: PageProps) {
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    console.log({name, value, checked});
   
     // Check if data[name] is an array, initialize as empty array if not
     const newData = Array.isArray(data[name]) ? [...data[name]] : [];
@@ -38,7 +37,6 @@ export default function Settings({ auth, settings }: PageProps) {
     }
 
     setData(name, newData); // Update the state
-    console.log({data}); // Log the current state
 };
   
   const handleSubmit = (e) => {
@@ -51,6 +49,7 @@ export default function Settings({ auth, settings }: PageProps) {
       user={auth.user}
       header={<h2 className="major-mono-display-regular text-white font-semibold text-2xl">Exercise: Define Practice</h2>}
     >
+    <div className="flex items-center m-5"> 
       <form className="major-mono-display-regular text-white text-sm" onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <CheckboxFieldSet
@@ -86,6 +85,7 @@ export default function Settings({ auth, settings }: PageProps) {
           Continue
         </PrimaryButton>
       </form>
+      </div>
     </AuthenticatedLayout>
   );
 }

@@ -4,7 +4,6 @@ import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function ApplicationLogo() {
     const { url } = usePage();
-    console.log(url);
     const shouldAnimate = url === '/login';
     const isTransparent = url !== '/login' || url !== '/register';
 

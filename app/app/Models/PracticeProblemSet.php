@@ -21,13 +21,14 @@ class PracticeProblemSet extends Model
 
     public function problem(): BelongsTo
     {
-        return $this->belongsTo(Problem::class, 'id', 'problem_id');
+        return $this->belongsTo(Problem::class, 'problem_id', 'id');
     }
-
+    
     public function post(): BelongsTo
     {
-        return $this->belongsTo(Practice::class, 'id', 'practice_d');
+        return $this->belongsTo(Practice::class, 'practice_id', 'id');
     }
+    
    
 
 }

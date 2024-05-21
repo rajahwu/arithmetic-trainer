@@ -7,11 +7,10 @@ import TextInput from "@/Components/TextInput";
 import { CiCircleCheck } from "react-icons/ci";
 import { PageProps } from '@/types';
 
-export default function Start({ id, selected, problemSet, auth }: PageProps) {
-
-    console.log('Exericise/Start Page: ', {id, selected, problemSet});
-
-    const [currentIndex, setCurrentIndex] = useState(0);
+export default function Start({ exerciseSessionData, auth }: PageProps) {
+    const {session, type, category, problemSet, count } = exerciseSessionData;
+    const id = session.id;
+    const [currentIndex, setCurrentIndex] = useState(0); 
     const [inputValue, setInputValue] = useState('');
     const [result, setResult] = useState(false);
     const [hasAttempted, setHasAttempted] = useState(false);
@@ -44,14 +43,14 @@ export default function Start({ id, selected, problemSet, auth }: PageProps) {
     const isAtLastProblem = currentIndex === problemSet.length - 1;
 
     return (
-        <AuthenticatedLayout 
+        <AuthenticatedLayout  
             user={auth.user}
             header={<h2 className="major-mono-display-regular font-semibold text-xl text-[var(--primary-color)]">Exercise</h2>}
             >
             <div className="flex items-center justify-center">
                 <Head title="Practice" />
                 <div className="flex flex-col justify-center items-center mx-auto">
-                    <h1 className="uppercase text-xl spline-sans-mono text-[var(--primary-color)] mt-5">{selected}</h1>
+                    <h1 className="uppercase text-xl spline-sans-mono text-[var(--primary-color)] mt-5">{type}</h1>
                     <div className="flex-row mt-5">
                         <div className="border mb-10 p-5 rounded bg-blue-900">
                             <div className="flex flex-col">
@@ -73,13 +72,13 @@ export default function Start({ id, selected, problemSet, auth }: PageProps) {
                                     </div>
                                 </div>
                                 <div className="basis-1/4 content-center">
-                                {hasAttempted && !result ? <p className="bg-blue-500 border-2 border-rose-600 my-2  rounded mx-2 text-center text-2xl text-rose-700">Incorrect!</p> : null}
-                                    <p className="bg-blue-300 border-lime-500 rounded mx-2 text-center text-2xl text-lime-700">{hasAttempted && result ? 'Correct' : ''}</p>
+                                {hasAttempted && !result ? <p className="bg-blue-500 border-2 border-rose-600 my-2 rounded mx-2 text-center text-2xl text-rose-700">Incorrect!</p> : null}
+                                {hasAttempted && result ?  <p className="bg-blue-300 border-2 border-lime-500 rounded my-2 text-center text-2xl text-lime-700">Correct</p> : null}
                                 </div>
                             </div>
                             <div className="flex justify-end">
                                 <div className="flex pt-5 pb-0">
-                                    <PrimaryButton className="hover:bg-[var(--primary-color)]" >Submit {selected}</PrimaryButton>
+                                    <PrimaryButton className="hover:bg-[var(--primary-color)]" >Submit {type}</PrimaryButton>
                                 </div>
                             </div>
                         </div>

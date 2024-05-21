@@ -145,22 +145,31 @@ class ExerciseSessionController extends Controller
         return redirect()->route('exercise.start', [
             'type' => $exercise_type,
             'category' => $exercise_category,
-            'id' => $exercise_session->id,
+            'exercise_session' => $exercise_session,
         ]);
     }        
+         
+        
     
     public function start(Request $request) {
-        $id = $request->query('id');
+
+        $id = $request->query('exercise_session');
         $type = $request->query('type');
         $category = $request->query('category');
+        
         // Fetch the ExerciseSession by ID
         $exercise_session = ExerciseSession::findOrFail($id);
-        // Fetch all problems associated with the practice ID
-        $problem_set = PracticeProblemSet::where('practice_id', $exercise_session->practice_id)->get();
-        $count = $problem_set->count();
+        // Fetch all practice problem sets associated with the practice ID
+        $practice_problem_sets = PracticeProblemSet::where('practice_id', $exercise_session->practice_id)->get();
+        // Initialize an empty array to store the problems
         $problems = [];
-        foreach ($problem_set as $item) {
-            $problem = Problem::find($item->problem_id);
+    
+        // Loop through each practice problem set
+        foreach ($practice_problem_sets as $practice_problem_set) {
+            // Fetch the problem using the practice problem set
+            $problem = $practice_problem_set->problem()->first();
+            
+            // If the problem exists, add it to the problems array
             if ($problem) {
                 $problems[] = [
                     'id' => $problem->id,
@@ -174,15 +183,25 @@ class ExerciseSessionController extends Controller
                 ];
             }
         }
-        
-        return Inertia::render('Exercise/Start', [
+    
+        // Count the number of problems
+        $count = count($problems);
+    
+        // Prepare the exercise session data
+        $exercise_session_data = [
+            'session' => $exercise_session,
+            'type' => $exercise_session->type,
+            'category' => $category,
             'problemSet' => $problems,
             'count' => $count,
-            'selected' => $exercise_session->type,
-            'catagory' => $category,
-            'id' => $id
+        ];
+    
+    
+        return Inertia::render('Exercise/Start', [
+            'exerciseSessionData' => $exercise_session_data,
         ]);
     }
+    
     
     
 

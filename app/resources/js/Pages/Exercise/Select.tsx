@@ -35,9 +35,9 @@ export default function Select({ auth }) {
             user={auth.user}
             header={<h2 className="major-mono-display-regular font-semibold text-2xl text-white dark:text-gray-200 leading-tight">Exercise</h2>}
         >
-            <div className="">
+            <div className="flex items-center justify-center m-5">
                 <form  onSubmit={handleSubmit}>
-                    <div className="spline-sans-mono text-[var(--primary-color)] flex gap-16 text-white">
+                    <div className="spline-sans-mono text-[var(--primary-color)] flex flex-col gap-5 items-center text-center md:flex-row  md:gap-16 text-white">
                         <div>
                             <p className="m-2 uppercase text-[var(--primary-color)]">Practice</p>
                             <Button buttonValue="Standard" className="p-5 m-2" type="button" onClick={() => handleClick('practice,standard')} />
@@ -50,9 +50,9 @@ export default function Select({ auth }) {
                                 <Button buttonValue="Exam" className="p-5 m-2" type="button" onClick={() => handleClick('assessment,exam')} />
                                 </div>
                         </div>
-                        <PrimaryButton buttonValue="Exam" className="p-5 m-2" type="submit">
+                        <PrimaryButton buttonValue="Exam" className="md:flex md:self-end h-6 p-3 bg-[var(--primary-color)] rounded-xl text-2xl" type="submit">
                             Select
-                        </PrimaryButton>
+                        </PrimaryButton> 
                     </div>
                 </form>
             </div>

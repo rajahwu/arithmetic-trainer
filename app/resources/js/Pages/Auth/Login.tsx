@@ -75,7 +75,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-between">
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
@@ -84,10 +84,19 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             Forgot your password?
                         </Link>
                     )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                    <div>
+                        <PrimaryButton className="px-4 py-1 text-[#ffa630] hover:text-[#010101] hover:border-[#010101] border-[var(--primary-color)]" disabled={processing}>
+                            Log in
+                        </PrimaryButton> 
+                    </div>
+                </div>
+                <div className="flex">
+                    <Link
+                        href={route('register')}
+                        className=" underline text-white text-sm mx-auto rounded-md"
+                        >
+                        Need to register?
+                    </Link>
                 </div>
             </form>
         </GuestLayout>
