@@ -90,6 +90,21 @@ graph TD
 
 ![login screen](./readme/assets/images/site/login-screen.png)
 
+### Dashboard
+![dashboard](./readme/assets/images/site/dashboard.png)
+
+### Exercise Select Screen
+
+![exercise select screen](./readme/assets/images/site/exercise-select.png)
+
+### Exercise Settings Screen
+
+![exercise settings screen](./readme/assets/images/site/exercise-settings.png)
+
+### Exercise Start Screen
+
+![exercise start screen](./readme/assets/images/site/exercise-start.png)
+
 <!-- TODO Add remaing page screen shots -->
 
 <!-- TODO Add backend route docs -->
