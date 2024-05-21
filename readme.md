@@ -87,7 +87,7 @@ graph TD
 
 ### Title Screen
 
-![title screen](./readme/assets/images/site/title-screen.png)
+![title screen](./readme/assets/images/site/home/title-screen.png)
 
 ### Registration Screen
 
