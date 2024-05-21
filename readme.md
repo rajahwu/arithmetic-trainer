@@ -86,7 +86,7 @@ graph TD
 
 ![registration screen](./readme/assets/images/site/registration-screen.png)
 
-### Title Screen
+### Login Screen
 
 ![login screen](./readme/assets/images/site/login-screen.png)
 
