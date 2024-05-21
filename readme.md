@@ -45,9 +45,13 @@ To get started with development, follow these steps:
    - Frontend: `npm start`
 9. Access the application in your browser: `http://localhost:8000`
 
-# Arithmetic Trainer User Experience Flowchart
+## Database
 
-## User Experience Flow
+![database diagram](./readme/assets/images/database_diagram.png)
+
+## Arithmetic Trainer User Experience Flowchart
+
+### User Experience Flow
 
 ```mermaid
 graph TD
@@ -71,14 +75,20 @@ graph TD
     D --> N[Logout]
     N --> O[End]
 ```
-## Database
 
-![database diagram](./readme/assets/images/database_diagram.png)
+## Arithmetic Trainer Screen Shots
 
+### Title Screen
 
-## License
+![title screen](./readme/assets/images/site/title-screen.png)
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Registration Screen
+
+![registration screen](./readme/assets/images/site/registration-screen.png)
+
+### Title Screen
+
+![login screen](./readme/assets/images/site/login-screen.png)
 
 ## Contact
 
